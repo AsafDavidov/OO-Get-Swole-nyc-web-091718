@@ -3,15 +3,19 @@ require_relative '../config/environment.rb'
 def reload
   load 'config/environment.rb'
 end
-names = ["Zoe", "John", "Kim"]
-3.times do
-  Lifter.new(names[Random.rand(2)], Random.rand(9839577))
-end
-twenty4 = Gym.new("24 Hour Fitness")
-hole_in_pocket = Membership.new(40, Lifter.all.first, twenty4)
 
 
+g1 = Gym.new('gold')
+g2 = Gym.new('planet')
 
+l1 = Lifter.new("mike",300)
+l2 = Lifter.new("nate",600)
+l3 = Lifter.new("oak",200)
+
+m1 = Membership.new(g1,l1,10)
+m2 = Membership.new(g2,l1,20)
+m3 = Membership.new(g1,l2,10)
+m4 = Membership.new(g2,l3,20)
 
 binding.pry
  puts "amazing"

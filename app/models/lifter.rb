@@ -1,41 +1,43 @@
-
 class Lifter
+  attr_accessor :name, :lift_total
   @@all = []
 
+  def self.all
+    @@all
+  end
 
-  attr_reader :name, :lift_total
+  def self.average_lift
+    @@all.map do |lifter|
+      lifter.lift_total
+    end.inject(0){|sum,x| sum + x }.to_f / @@all.size.to_f
+  end
 
   def initialize(name, lift_total)
     @name = name
     @lift_total = lift_total
     @@all << self
   end
-  def sign_up(cost, gym)
-    #Create membership
-    Membership.new(cost, self, gym)
-  end
-  def memberships
-    #Access membership => [memberships]
-    #Select all memberships for specific member
-    Membership.all.select do |m|
-      #compare whether or not lifter property == this lifter
-      m.lifter == self
-    end
 
+  def memberships
+    Membership.all.select do |member|
+      member.lifter == self
+    end
+  end
+
+  def total_cost
+    self.memberships.map do |my_member|
+      my_member.cost
+    end.inject(0){|sum,x| sum + x }
   end
 
   def gyms
-    #Access the Memberships.all array
-    #Determine whether or not the memberships are mine/lifters
-    my_memberships = self.memberships
-    #create array of gyms from the memberships array
-    my_memberships.map do |m|
-      m.gym
-    end
+      self.memberships.map do |my_member|
+        my_member.gym
+      end
   end
 
-  def self.all 
-    @@all
+  def sign_up(membership_cost,gym)
+    Membership.new(self,gym,membership_cost)
   end
 
-end
+end # end of lifter class
